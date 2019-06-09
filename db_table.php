@@ -1,6 +1,6 @@
 <?php 
 	// include connect script
-	include("connect.php");
+	include("includes/connect.php");
 
 	// query to create database table
 	$query = "CREATE TABLE book (";
@@ -9,6 +9,8 @@
 	$query = $query . "author varchar(40),";
 	$query = $query . "isbn INT,";
 	$query = $query . "status BOOLEAN,";
+	$query = $query . "date DATETIME DEFAULT CURRENT_TIMESTAMP,";
+	$query = $query . "moddate DATETIME ON UPDATE CURRENT_TIMESTAMP,";
 	$query = $query . "PRIMARY KEY(id));";
 
 	$result = mysqli_query($conn, $query);

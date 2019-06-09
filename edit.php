@@ -1,6 +1,7 @@
 <?php 
+	session_start();
 	// include connection script
-	include("connect.php");
+	include("includes/connect.php");
 
 	if(isset($_POST['update'])) {
 		$id = $_POST['id'];
@@ -20,7 +21,7 @@
 		$query = "UPDATE book SET title='$title', author='$author', isbn='$isbn' WHERE id='$id'";
 		$result = mysqli_query($conn, $query) or die(mysqli_error($conn));
 		if($result) {
-			header("Location: index.php");
+			header("Location: dashboard.php");
 		}
 	}
 ?>
@@ -42,40 +43,65 @@
 ?>
 
 
+<?php 
+	if(isset($_SESSION['login'])) {
+?>
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="assets/css/bootstrap.css">
+	<link rel="stylesheet" href="assets/css/style.css">
 	<title>Edit Form</title>
 </head>
 <body>
-	<div class="container">
-		<div class="row h-75 justify-content-center align-items-center mt-5">
-			<h2 class="text-center">Library Management System</h2>
-			<hr class="w-100">
-			
-			<form class="w-100" method="post" action="<?php $PHP_SELF; ?>">
-				<!-- <a href="index.php" class="btn btn-sm btn-primary">&larr;Go Back</a> -->
-				<h3 class="text-center">update form</h3>
-				<hr>
-			  	<div class="form-group">
-			    	<label for="title">Title</label>
-			    	<input type="text" class="form-control" name="title" value="<?php echo $bkTitle; ?>">
-			  	</div>
+	<div class="content-wrapper">
+		<div class="container">
+			<h1 class="header-line">Library Management System</h1>
+			<div class="row pad-botm">
+				<div class="col-md-12">
+					<a href="./index.php" class="btn btn-info btn-sm">&larr; Go back</a>
+				</div>
+			</div>
 
-			  	<div class="form-group">
-				    <label for="author">Author</label>
-				    <input type="text" class="form-control" name="author" value="<?php echo $bkAuthor; ?>">
-			  	</div>
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							UPDATE FORM
+						</div>
+						<div class="panel-body">
+							<form method="post" role="form" action="<?php echo $PHP_SELF; ?>">
+								<div class="form-group">
+									<label for="title">Title</label>
+									<input type="text" class="form-control" name="title" value="<?php echo $bkTitle; ?>">
+								</div>
 
-			  	<div class="form-group">
-			  		<label for="isbn">ISBN</label>
-			    	<input type="text" class="form-control" name="isbn" value="<?php echo $bkIsbn; ?>">			    
-			  	</div>
-			  	<input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
-			  	<button type="submit" class="btn btn-primary btn-block" name="update">Update</button>
-			</form>
+								<div class="form-group">
+									<label for="author">Author</label>
+									<input type="text" class="form-control" name="author" value="<?php echo $bkAuthor; ?>">
+								</div>
+
+								<div class="form-group">
+									<label for="isbn">ISBN</label>
+									<input type="text" class="form-control" name="isbn" value="<?php echo $bkIsbn; ?>">			    
+								</div>
+								<input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
+								<button type="submit" name="update" class="btn btn-info btn-lg">UPDATE</button>
+							</form>
+						</div>
+					</div>	
+				</div>
+			</div>
 		</div>
 	</div>
+	<?php include('includes/footer.php'); ?>
 </body>
 </html>
+<?php } else {?>
+<?php 
+	header('location: index.php');	
+?>
+<?php }?>
